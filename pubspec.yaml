@@ -1,0 +1,69 @@
+name: pushup_hub
+description: "Application d'entraînement sportif avec gamification — Pushup"
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.11.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod:
+  riverpod_annotation:
+
+  # Routing
+  go_router:
+
+  # Réseau
+  dio:
+  connectivity_plus:
+
+  # Sérialisation
+  freezed_annotation:
+  json_annotation:
+
+  # Storage
+  flutter_secure_storage:
+  shared_preferences:
+
+  # UI — cf. design.md
+  google_fonts:
+  phosphor_flutter:
+  lottie:
+  flutter_animate:
+  cached_network_image:
+  shimmer:
+  flutter_svg:
+
+  # Utils
+  intl:
+  logger:
+  uuid:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code generation
+  build_runner:
+  riverpod_generator:
+  freezed:
+  json_serializable:
+  custom_lint:
+  riverpod_lint:
+
+  # Linting
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/animations/
+    - assets/icons/
