@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pushup_hub/core/router/routes.dart';
 
-/// Écran de démarrage — affiche le logo PushUp Hub puis redirige vers le dashboard.
+/// Écran de démarrage — affiche le logo Pushup puis redirige vers le dashboard.
 /// Sera enrichi : vérification auth, chargement des données, animation Lottie.
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -34,7 +34,7 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'PushUp Hub',
+              'Pushup',
               style: GoogleFonts.outfit(
                 fontSize: 48,
                 fontWeight: FontWeight.w800,

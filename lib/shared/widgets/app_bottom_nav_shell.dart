@@ -17,7 +17,7 @@ class AppBottomNavShell extends StatelessWidget {
       body: navigationShell,
       floatingActionButton: _buildFab(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: _buildBottomBar(),
+      bottomNavigationBar: _buildBottomBar(context),
     );
   }
 
@@ -61,13 +61,15 @@ class AppBottomNavShell extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomBar() {
+  Widget _buildBottomBar(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Container(
-      height: 64,
+      height: 64 + bottomPadding,
       decoration: const BoxDecoration(
         color: AppColors.bgSurface,
         border: Border(top: BorderSide(color: AppColors.border, width: 1)),
       ),
+      padding: EdgeInsets.only(bottom: bottomPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

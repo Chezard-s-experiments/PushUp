@@ -9,7 +9,7 @@ Future<void> bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     const ProviderScope(
-      child: PushUpHubApp(),
+      child: PushupApp(),
     ),
   );
 }

@@ -1,6 +1,6 @@
 {
-    "name": "pushup_hub",
-    "short_name": "pushup_hub",
+    "name": "Pushup",
+    "short_name": "Pushup",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
