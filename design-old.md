@@ -1,6 +1,6 @@
 # Design System — Pushup Hub
 
-**Version** : 1.1
+**Version** : 1.0
 **Dernière mise à jour** : Mars 2026
 **Ambiance** : Midnight Athlete — sombre, chaleureux, motivant, accessible
 
@@ -15,7 +15,6 @@
 5. [Composants UI](#5-composants-ui)
 6. [Espacements et grille](#6-espacements-et-grille)
 7. [Illustrations et imagerie](#7-illustrations-et-imagerie)
-8. [Navigation et page d'accueil](#8-navigation-et-page-daccueil)
 
 ---
 
@@ -196,15 +195,13 @@ Bibliothèque complète (6 000+ icônes), 6 styles disponibles, avec un mode duo
 
 ### Icônes de navigation principale
 
-| Onglet | Icône Phosphor | Note |
-|--------|----------------|------|
-| Accueil | `House` | Onglet gauche |
-| Programmes | `Barbell` | Onglet gauche-centre |
-| Démarrer (FAB) | `Play` | Bouton central surélevé, fond `#FF6B2C` |
-| Progression | `Trophy` | Onglet droite-centre |
-| Profil | `UserCircle` | Onglet droite |
-
-> L'Historique n'a plus d'onglet dédié. Il est intégré dans l'Accueil (activité récente) et accessible depuis chaque programme.
+| Onglet | Icône Phosphor |
+|--------|----------------|
+| Accueil | `House` |
+| Programmes | `Barbell` |
+| Historique | `ClockCounterClockwise` |
+| Progression | `ChartLineUp` |
+| Profil | `UserCircle` |
 
 ---
 
@@ -282,23 +279,15 @@ Chaque niveau ajoute une ombre croissante :
 - Hauteur : 48px
 - Label flottant : DM Sans Medium 12px `#9999AA`
 
-### Navigation (Bottom Bar — 4 onglets + FAB central)
+### Navigation (Bottom Bar)
 
 - Fond : `#1A1A2E` (niveau 1)
 - Bordure top : `1px rgba(255,255,255,0.06)`
 - Hauteur : 64px
-- **4 onglets** (Accueil, Programmes, Progression, Profil) + **1 FAB central** (Démarrer)
+- 5 onglets
 - Inactif : icône Phosphor Regular 24px `#9999AA`
 - Actif : icône Phosphor Fill 24px `#FF6B2C` + label Outfit Medium 10px `#FF6B2C`
 - Transition : 200ms ease
-
-#### FAB central "Démarrer"
-- Cercle 56px, fond `#FF6B2C`
-- Icône `Play` Phosphor Fill 28px `#FFFFFF`
-- Surélevé de 12px au-dessus de la nav bar
-- Ombre : `0 4px 16px rgba(255,107,44,0.4)`
-- Press : `scale(0.93)` + ombre réduite
-- Ouvre la sélection de séance ou lance directement la prochaine séance planifiée
 
 ### Barres de progression
 
@@ -482,153 +471,6 @@ Même logique que les composants UI : sobre au quotidien, spectaculaire pour les
 
 ---
 
-## 8. Navigation et page d'accueil
-
-### Architecture de navigation
-
-#### Bottom Bar : 4 onglets + FAB central
-
-```
-┌────────────────────────────────────────────────┐
-│                                                │
-│   Accueil    Programmes   [ ▶ ]   Progression   Profil   │
-│    House      Barbell     FAB      Trophy     UserCircle  │
-│                                                │
-└────────────────────────────────────────────────┘
-```
-
-| Position | Élément | Icône | Type |
-|----------|---------|-------|------|
-| Gauche | Accueil | `House` | Onglet |
-| Gauche-centre | Programmes | `Barbell` | Onglet |
-| **Centre** | **Démarrer** | `Play` | **FAB surélevé** (cercle orange 56px) |
-| Droite-centre | Progression | `Trophy` | Onglet |
-| Droite | Profil | `UserCircle` | Onglet |
-
-#### Pourquoi 4 onglets + FAB (et non 5 onglets)
-
-- **L'Historique est supprimé de la nav bar** : il est rarement une destination en soi. L'utilisateur veut voir "comment j'ai progressé" (→ Progression) ou "qu'est-ce que j'ai fait récemment" (→ Accueil). L'historique détaillé reste accessible depuis l'Accueil (activité récente) et depuis chaque programme (historique du programme).
-- **Le FAB central crée une hiérarchie** : l'action (s'entraîner) domine la navigation (consulter). C'est le pattern de Nike Training Club, Strava et la majorité des apps fitness performantes.
-- **Moins de choix = moins de friction cognitive** : 4 destinations + 1 action est plus clair que 5 destinations équivalentes.
-
-#### Contenu de chaque onglet
-
-| Onglet | Contenu principal |
-|--------|-------------------|
-| **Accueil** | Dashboard : progression rapide, prochaine séance, activité récente, objectif actif, prochain jalon |
-| **Programmes** | Liste des programmes de l'utilisateur, création de programme, détail et gestion |
-| **Progression** | Détail complet : palier, niveau, XP, jalons atteints et à venir, classements, graphiques |
-| **Profil** | Paramètres, compte, déconnexion, revoir le tutoriel, préférences |
-
----
-
-### Page d'accueil (Home)
-
-L'accueil répond à **3 questions** que l'utilisateur se pose en ouvrant l'app :
-1. **"Où j'en suis ?"** → progression rapide
-2. **"Qu'est-ce que je fais aujourd'hui ?"** → prochaine séance
-3. **"Est-ce que je suis régulier ?"** → streak / activité récente
-
-#### Structure (de haut en bas)
-
-##### App Bar
-
-- Gauche : "Salut, [Prénom]" — DM Sans Regular 16px `#F5F5F7`
-- Droite : badge palier miniature (Phosphor duotone 24px, couleur du palier) + icône notifications (`Bell` 24px)
-
-##### Bloc 1 — Progression rapide
-
-**Rôle** : feedback immédiat sur la progression globale. Toujours visible en premier.
-
-- Badge du palier actuel (Phosphor duotone 32px, couleur métallique du palier)
-- "Palier Bronze" — DM Sans Medium 12px `#9999AA`
-- "Niveau 23" — Outfit Bold 22px `#F5F5F7`
-- Barre XP vers le niveau suivant (dégradé `#FF6B2C` → `#FF9A44`, 8px, animée)
-- "67% → Niveau 24" — DM Sans Regular 14px `#9999AA`
-- "+350 XP cette semaine" — DM Sans Medium 14px `#FF6B2C`
-- Streak : "3 séances consécutives" — DM Sans Medium 14px `#FFB800` (si streak actif)
-- **Tap** → redirige vers l'onglet Progression
-
-**Composant** : card niveau 1, padding 16px, coins 16px.
-
-##### Bloc 2 — Prochaine séance (CTA principal)
-
-**Rôle** : inciter l'utilisateur à passer à l'action. C'est le bloc le plus grand et le plus visible.
-
-- Nom du programme — DM Sans Medium 14px `#9999AA`
-- Nom de la séance — Outfit SemiBold 18px `#F5F5F7`
-- "Séance 3/12" — DM Sans Regular 14px `#9999AA`
-- "~45 min · 5 exercices" — DM Sans Regular 14px `#9999AA`
-- Bouton primaire pleine largeur : "Démarrer la séance" — Outfit SemiBold 16px
-
-**États alternatifs** :
-- Aucune séance planifiée → "Pas de séance prévue" + bouton secondaire "Choisir un programme"
-- Aucun programme → illustration flat + "Créez votre premier programme" + bouton primaire
-
-**Composant** : card niveau 1, padding 16px, coins 16px, légèrement plus grande (padding bottom 24px pour le bouton).
-
-##### Bloc 3 — Activité récente
-
-**Rôle** : visualiser la régularité et accéder rapidement à l'historique récent.
-
-- Titre de section : "Activité récente" — Outfit SemiBold 18px `#F5F5F7`
-- Scroll horizontal de mini-cards (3 dernières séances)
-- Chaque mini-card :
-  - Date relative ("Hier", "Mar 11") — DM Sans Medium 12px `#9999AA`
-  - Nom de la séance — DM Sans Medium 14px `#F5F5F7`
-  - "+130 XP" — Outfit SemiBold 14px `#FF6B2C`
-  - "45 min" — DM Sans Regular 12px `#9999AA`
-- **Tap** sur une card → détail de la séance (écran historique)
-
-**Si aucune séance** : bloc masqué (le Bloc 2 avec état vide fait le job).
-
-**Composant** : mini-cards niveau 1, padding 12px, coins 12px, largeur fixe 140px.
-
-##### Bloc 4 — Objectif actif (conditionnel, Phase 2+)
-
-**Rôle** : rappeler l'objectif en cours et sa progression.
-
-> Ce bloc n'apparaît pas en Phase 1 MVP (les objectifs arrivent en Phase 2).
-
-- Titre : "Objectif en cours" — Outfit SemiBold 18px `#F5F5F7`
-- Nom de l'objectif — DM Sans Medium 16px `#F5F5F7`
-- Barre de progression globale (dégradé orange, 8px)
-- "61%" — Outfit Bold 22px `#FF6B2C`
-- Barres secondaires :
-  - Temps : barre bleue 4px + "50%" — DM Sans Regular 12px `#3A86FF`
-  - Métrique : barre verte 4px + "66%" — DM Sans Regular 12px `#00C853`
-- Métriques principales : "Poids : -7kg / -10kg" — DM Sans Regular 14px `#9999AA`
-- **Tap** → détail de l'objectif
-
-**Composant** : card niveau 1, padding 16px, coins 16px.
-
-##### Bloc 5 — Prochain jalon
-
-**Rôle** : motivation par la proximité du prochain accomplissement.
-
-- "Prochain jalon" — DM Sans Medium 12px `#9999AA`
-- "Warrior (Niveau 25)" — Outfit SemiBold 18px `#F5F5F7`
-- "Plus que 2 niveaux !" — DM Sans Regular 14px `#FF6B2C`
-- Barre de progression vers le jalon (dégradé orange, 6px)
-- **Tap** → onglet Progression
-
-**Si jalon atteint récemment** : remplacé par une mini-célébration — "Bravo ! Warrior atteint !" avec badge miniature et fond `rgba(255,107,44,0.08)`.
-
-**Composant** : card niveau 1, padding 16px, coins 16px.
-
-#### Ordre des blocs en Phase 1 MVP
-
-En Phase 1 (pas d'objectifs, pas de planning avancé), la home se limite à :
-
-1. **Progression rapide** — palier Bronze, niveau, XP, streak
-2. **Prochaine séance** — dernier programme utilisé, ou CTA de création
-3. **Activité récente** — 3 dernières séances (scroll horizontal)
-4. **Prochain jalon** — motivation vers le prochain milestone
-
-Le Bloc 4 (objectif actif) apparaîtra en Phase 2 quand les objectifs seront implémentés.
-
----
-
 ## Récapitulatif des choix
 
 | Section | Choix | Résumé |
@@ -640,8 +482,6 @@ Le Bloc 4 (objectif actif) apparaîtra en Phase 2 quand les objectifs seront imp
 | Composants | Elevated Dark + Glass gamif. | Opaque au quotidien, glassmorphism pour les célébrations |
 | Espacements | Base 8px strict | Multiples de 8, colonnes 4/8/12, breakpoints 600/900px |
 | Illustrations | Flat + badges métalliques | Storyset/unDraw pour le fonctionnel, Lottie/custom pour les paliers |
-| Navigation | 4 onglets + FAB central | Accueil, Programmes, [Démarrer], Progression, Profil |
-| Home page | 5 blocs hiérarchisés | Progression rapide, Prochaine séance, Activité récente, Objectif, Jalon |
 
 ---
 

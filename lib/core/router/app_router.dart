@@ -9,7 +9,7 @@ import 'package:pushup_hub/features/sessions/presentation/pages/history_page.dar
 import 'package:pushup_hub/shared/widgets/app_bottom_nav_shell.dart';
 
 /// Routeur principal de l'application.
-/// Sera converti en Provider Riverpod quand les redirections auth seront ajoutées.
+/// Navigation : 4 onglets + FAB central (cf. design.md §8)
 final appRouter = GoRouter(
   initialLocation: Routes.splash,
   routes: [
@@ -18,7 +18,13 @@ final appRouter = GoRouter(
       builder: (context, state) => const SplashPage(),
     ),
 
-    // Navigation principale avec bottom bar (5 onglets)
+    // Historique en plein écran (accessible depuis l'accueil et les programmes)
+    GoRoute(
+      path: Routes.history,
+      builder: (context, state) => const HistoryPage(),
+    ),
+
+    // Navigation principale : 4 onglets avec bottom bar + FAB central
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return AppBottomNavShell(navigationShell: navigationShell);
@@ -37,14 +43,6 @@ final appRouter = GoRouter(
             GoRoute(
               path: Routes.programs,
               builder: (context, state) => const ProgramsPage(),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: Routes.history,
-              builder: (context, state) => const HistoryPage(),
             ),
           ],
         ),

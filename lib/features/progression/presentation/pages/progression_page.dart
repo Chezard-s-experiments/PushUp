@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Écran de progression — gamification.
-/// Affichera : palier, niveau, XP, barres de progression, jalons.
+/// Affichera : palier, niveau, XP, jalons atteints et à venir, classements, graphiques.
 class ProgressionPage extends StatelessWidget {
   const ProgressionPage({super.key});
 
@@ -15,7 +15,7 @@ class ProgressionPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(
-              Icons.show_chart,
+              Icons.emoji_events,
               size: 64,
               color: Color(0xFF9999AA),
             ),
@@ -30,7 +30,7 @@ class ProgressionPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Palier, niveau, XP — à venir',
+              'Palier, niveau, XP, jalons — à venir',
               style: GoogleFonts.dmSans(
                 fontSize: 14,
                 color: const Color(0xFF9999AA),
