@@ -51,7 +51,7 @@ final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$dioHash() => r'bb004ea259ff5b4f6e7bbf1198b91369aa34a0e8';
+String _$dioHash() => r'99cdb11cbe1c21ae80d9077be9866f8384b163b0';
 
 /// Vérification de la connectivité réseau.
 
@@ -97,4 +97,4 @@ final class NetworkInfoProvider
   }
 }
 
-String _$networkInfoHash() => r'dcbde4d16ce49032812421972f732dce50451579';
+String _$networkInfoHash() => r'6ab128e00ccb36b40c818910230cbfbb7f3ce9a8';
