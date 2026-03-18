@@ -20,7 +20,10 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.11.1"
+          # On évite de "picker" une patch très ancienne : l'action peut ne pas
+          # réussir à la résoudre. Le SDK Dart requis est ^3.11.1 donc une
+          # version Flutter stable plus récente reste compatible.
+          channel: stable
           cache: true
 
       - name: Flutter pub get
