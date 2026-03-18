@@ -11,24 +11,31 @@ import 'package:pushup_hub/shared/widgets/app_button.dart';
 import 'package:pushup_hub/shared/widgets/app_snackbar.dart';
 import 'package:pushup_hub/shared/widgets/app_text_field.dart';
 
-/// Écran de connexion email/mot de passe — cf. issue auth Phase 1.
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+/// Écran d'inscription email/mot de passe — cf. issue auth Phase 1.
+class RegisterPage extends ConsumerStatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _obscureConfirm = true;
 
   @override
   void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -67,13 +74,36 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
-                    'Content de te revoir !',
+                    'Crée ton compte',
                     style: AppTypography.body1.copyWith(
                       color: AppColors.textSecondary,
                     ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: AppSpacing.xxl),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppTextField(
+                          controller: _firstNameController,
+                          label: 'Prénom',
+                          hint: 'Jean',
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: AppTextField(
+                          controller: _lastNameController,
+                          label: 'Nom',
+                          hint: 'Dupont',
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.md),
 
                   AppTextField(
                     controller: _emailController,
@@ -102,12 +132,32 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     validator: _validatePassword,
                   ),
+                  const SizedBox(height: AppSpacing.md),
+
+                  AppTextField(
+                    controller: _confirmPasswordController,
+                    label: 'Confirmer le mot de passe',
+                    obscureText: _obscureConfirm,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirm
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: AppColors.textSecondary,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        setState(() => _obscureConfirm = !_obscureConfirm);
+                      },
+                    ),
+                    validator: _validateConfirmPassword,
+                  ),
                   const SizedBox(height: AppSpacing.lg),
 
                   AppButton(
-                    label: 'Se connecter',
+                    label: "S'inscrire",
                     isLoading: isLoading,
-                    onPressed: isLoading ? null : _onLogin,
+                    onPressed: isLoading ? null : _onRegister,
                   ),
                   const SizedBox(height: AppSpacing.md),
 
@@ -115,15 +165,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Pas de compte ? ',
+                        'Déjà un compte ? ',
                         style: AppTypography.body2.copyWith(
                           color: AppColors.textSecondary,
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => context.go(Routes.register),
+                        onTap: () => context.go(Routes.login),
                         child: Text(
-                          "S'inscrire",
+                          'Se connecter',
                           style: AppTypography.body2.copyWith(
                             color: AppColors.primary,
                             fontWeight: FontWeight.w600,
@@ -141,12 +191,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 
-  void _onLogin() {
+  void _onRegister() {
     if (!_formKey.currentState!.validate()) return;
 
-    ref.read(authProvider.notifier).login(
+    ref.read(authProvider.notifier).register(
           email: _emailController.text.trim(),
           password: _passwordController.text,
+          firstName: _firstNameController.text.trim().isNotEmpty
+              ? _firstNameController.text.trim()
+              : null,
+          lastName: _lastNameController.text.trim().isNotEmpty
+              ? _lastNameController.text.trim()
+              : null,
         );
   }
 
@@ -171,4 +227,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     return null;
   }
 
+  String? _validateConfirmPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Confirmation requise';
+    }
+    if (value != _passwordController.text) {
+      return 'Les mots de passe ne correspondent pas';
+    }
+    return null;
+  }
 }
