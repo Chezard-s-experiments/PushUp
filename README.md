@@ -51,3 +51,13 @@ flutter run --dart-define=API_BASE_URL=http://127.0.0.1:8000
 flutter build apk --dart-define=ENV=prod
 ```
 flutter run -d a57b00e1 --dart-define=API_BASE_URL=http://192.168.129.17:8000
+
+## Vérifications avant push
+
+Lance ces commandes avant de pousser une PR :
+
+```bash
+flutter pub get
+flutter analyze
+flutter test
+```
