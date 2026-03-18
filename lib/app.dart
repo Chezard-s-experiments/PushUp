@@ -10,10 +10,12 @@ class PushupApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(appRouterProvider);
+
     return MaterialApp.router(
       title: 'Pushup',
       debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
+      routerConfig: router,
       theme: AppTheme.dark,
     );
   }
