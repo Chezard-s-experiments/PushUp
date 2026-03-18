@@ -35,27 +35,23 @@ class AuthNotifier extends _$AuthNotifier {
     state = switch (result) {
       Success(:final data) => Authenticated(data),
       Error() => () {
-          _repository.logout();
-          return const Unauthenticated();
-        }(),
+        _repository.logout();
+        return const Unauthenticated();
+      }(),
     };
   }
 
   /// Connecte l'utilisateur avec email/mot de passe.
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     state = const AuthLoading();
 
-    final result = await _repository.login(
-      email: email,
-      password: password,
-    );
+    final result = await _repository.login(email: email, password: password);
 
     state = switch (result) {
       Success(:final data) => Authenticated(data),
-      Error(:final failure) => AuthError(failure.message ?? 'Erreur de connexion'),
+      Error(:final failure) => AuthError(
+        failure.message ?? 'Erreur de connexion',
+      ),
     };
   }
 
@@ -77,7 +73,9 @@ class AuthNotifier extends _$AuthNotifier {
 
     state = switch (result) {
       Success(:final data) => Authenticated(data),
-      Error(:final failure) => AuthError(failure.message ?? "Erreur d'inscription"),
+      Error(:final failure) => AuthError(
+        failure.message ?? "Erreur d'inscription",
+      ),
     };
   }
 

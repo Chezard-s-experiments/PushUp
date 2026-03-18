@@ -40,10 +40,7 @@ class AppTextField extends StatelessWidget {
       onChanged: onChanged,
       validator: validator,
       maxLines: maxLines,
-      style: GoogleFonts.dmSans(
-        fontSize: 16,
-        color: AppColors.textPrimary,
-      ),
+      style: GoogleFonts.dmSans(fontSize: 16, color: AppColors.textPrimary),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,

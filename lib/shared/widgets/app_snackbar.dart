@@ -22,9 +22,7 @@ void showAppSnackBar(
           decoration: BoxDecoration(
             color: AppColors.bgElevated,
             borderRadius: BorderRadius.circular(12),
-            border: Border(
-              left: BorderSide(color: accentColor, width: 3),
-            ),
+            border: Border(left: BorderSide(color: accentColor, width: 3)),
             boxShadow: const [
               BoxShadow(
                 color: Color(0x99000000),

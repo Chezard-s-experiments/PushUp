@@ -37,9 +37,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
           children: [
             Text(
               'Pushup',
-              style: AppTypography.display.copyWith(
-                color: AppColors.primary,
-              ),
+              style: AppTypography.display.copyWith(color: AppColors.primary),
             ),
             const SizedBox(height: 24),
             const SizedBox(

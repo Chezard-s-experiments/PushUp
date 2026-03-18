@@ -6,8 +6,7 @@ import '../../../../helpers/auth_test_helpers.dart';
 
 void main() {
   group('LoginPage', () {
-    testWidgets('affiche le logo, le sous-titre et les champs',
-        (tester) async {
+    testWidgets('affiche le logo, le sous-titre et les champs', (tester) async {
       await tester.pumpWidget(createTestApp(const LoginPage()));
       await tester.pumpAndSettle();
 
@@ -57,8 +56,9 @@ void main() {
       expect(find.text('Mot de passe requis'), findsOneWidget);
     });
 
-    testWidgets('affiche une erreur si mot de passe trop court',
-        (tester) async {
+    testWidgets('affiche une erreur si mot de passe trop court', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestApp(const LoginPage()));
       await tester.pumpAndSettle();
 
@@ -97,8 +97,9 @@ void main() {
       expect(find.text('8 caractères minimum'), findsNothing);
     });
 
-    testWidgets('le toggle de visibilité du mot de passe fonctionne',
-        (tester) async {
+    testWidgets('le toggle de visibilité du mot de passe fonctionne', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestApp(const LoginPage()));
       await tester.pumpAndSettle();
 

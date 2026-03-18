@@ -144,7 +144,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void _onLogin() {
     if (!_formKey.currentState!.validate()) return;
 
-    ref.read(authProvider.notifier).login(
+    ref
+        .read(authProvider.notifier)
+        .login(
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
@@ -170,5 +172,4 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
     return null;
   }
-
 }

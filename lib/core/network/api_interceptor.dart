@@ -41,13 +41,15 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
         return handler.next(err);
       }
 
-      final refreshDio = Dio(BaseOptions(
-        baseUrl: EnvConfig.apiBaseUrl,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      ));
+      final refreshDio = Dio(
+        BaseOptions(
+          baseUrl: EnvConfig.apiBaseUrl,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        ),
+      );
 
       final response = await refreshDio.post(
         '/auth/refresh',
@@ -57,10 +59,7 @@ class AuthInterceptor extends QueuedInterceptorsWrapper {
       final newAccessToken = response.data['access_token'] as String;
       final newRefreshToken = response.data['refresh_token'] as String;
 
-      await _storage.write(
-        key: StorageKeys.accessToken,
-        value: newAccessToken,
-      );
+      await _storage.write(key: StorageKeys.accessToken, value: newAccessToken);
       await _storage.write(
         key: StorageKeys.refreshToken,
         value: newRefreshToken,

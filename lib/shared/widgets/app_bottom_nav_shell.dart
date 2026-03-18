@@ -56,7 +56,11 @@ class AppBottomNavShell extends StatelessWidget {
         elevation: 0,
         highlightElevation: 0,
         shape: const CircleBorder(),
-        child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 36),
+        child: const Icon(
+          Icons.play_arrow_rounded,
+          color: Colors.white,
+          size: 36,
+        ),
       ),
     );
   }

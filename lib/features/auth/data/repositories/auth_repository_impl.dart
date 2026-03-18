@@ -19,8 +19,8 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
     required AuthRemoteDataSource remoteDataSource,
     required FlutterSecureStorage secureStorage,
-  })  : _remoteDataSource = remoteDataSource,
-        _secureStorage = secureStorage;
+  }) : _remoteDataSource = remoteDataSource,
+       _secureStorage = secureStorage;
 
   @override
   Future<Result<UserProfile>> register({

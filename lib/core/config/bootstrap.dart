@@ -7,9 +7,5 @@ import 'package:pushup_hub/app.dart';
 /// et lance l'application.
 Future<void> bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    const ProviderScope(
-      child: PushupApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: PushupApp()));
 }

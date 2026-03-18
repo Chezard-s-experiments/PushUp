@@ -88,27 +88,23 @@ class AppButton extends StatelessWidget {
       return Row(
         mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 20),
-          const SizedBox(width: 8),
-          Text(label),
-        ],
+        children: [Icon(icon, size: 20), const SizedBox(width: 8), Text(label)],
       );
     }
     return Text(label);
   }
 
   Color get _backgroundColor => switch (variant) {
-        AppButtonVariant.primary => AppColors.primary,
-        AppButtonVariant.secondary => AppColors.bgElevated,
-        AppButtonVariant.ghost => Colors.transparent,
-        AppButtonVariant.danger => AppColors.error,
-      };
+    AppButtonVariant.primary => AppColors.primary,
+    AppButtonVariant.secondary => AppColors.bgElevated,
+    AppButtonVariant.ghost => Colors.transparent,
+    AppButtonVariant.danger => AppColors.error,
+  };
 
   Color get _foregroundColor => switch (variant) {
-        AppButtonVariant.primary => Colors.white,
-        AppButtonVariant.secondary => AppColors.textPrimary,
-        AppButtonVariant.ghost => AppColors.primary,
-        AppButtonVariant.danger => Colors.white,
-      };
+    AppButtonVariant.primary => Colors.white,
+    AppButtonVariant.secondary => AppColors.textPrimary,
+    AppButtonVariant.ghost => AppColors.primary,
+    AppButtonVariant.danger => Colors.white,
+  };
 }

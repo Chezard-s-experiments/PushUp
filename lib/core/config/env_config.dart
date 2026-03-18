@@ -10,10 +10,10 @@ class EnvConfig {
   static const _apiBaseUrlOverride = String.fromEnvironment('API_BASE_URL');
 
   static Environment get current => switch (_envStr) {
-        'prod' => Environment.prod,
-        'staging' => Environment.staging,
-        _ => Environment.dev,
-      };
+    'prod' => Environment.prod,
+    'staging' => Environment.staging,
+    _ => Environment.dev,
+  };
 
   static String get apiBaseUrl {
     if (_apiBaseUrlOverride.isNotEmpty) return _apiBaseUrlOverride;

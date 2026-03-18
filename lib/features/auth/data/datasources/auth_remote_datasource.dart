@@ -31,10 +31,7 @@ class AuthRemoteDataSource {
   /// POST /auth/login → AuthResponse (200)
   Future<AuthResponse> login(LoginRequest request) async {
     try {
-      final response = await _dio.post(
-        '/auth/login',
-        data: request.toJson(),
-      );
+      final response = await _dio.post('/auth/login', data: request.toJson());
       return AuthResponse.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -54,13 +51,8 @@ class AuthRemoteDataSource {
   /// POST /auth/refresh → AccessTokenPayload (200)
   Future<AccessTokenPayload> refresh(RefreshRequest request) async {
     try {
-      final response = await _dio.post(
-        '/auth/refresh',
-        data: request.toJson(),
-      );
-      return AccessTokenPayload.fromJson(
-        response.data as Map<String, dynamic>,
-      );
+      final response = await _dio.post('/auth/refresh', data: request.toJson());
+      return AccessTokenPayload.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleDioException(e);
     }

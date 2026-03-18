@@ -14,10 +14,7 @@ class FakeAuthNotifier extends Notifier<AuthState> implements AuthNotifier {
   Future<void> checkAuthStatus() async {}
 
   @override
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {}
+  Future<void> login({required String email, required String password}) async {}
 
   @override
   Future<void> register({
@@ -37,12 +34,7 @@ Widget createTestApp(Widget child, {FakeAuthNotifier? authNotifier}) {
   final notifier = authNotifier ?? FakeAuthNotifier();
 
   return ProviderScope(
-    overrides: [
-      authProvider.overrideWith(() => notifier),
-    ],
-    child: MaterialApp(
-      theme: AppTheme.dark,
-      home: child,
-    ),
+    overrides: [authProvider.overrideWith(() => notifier)],
+    child: MaterialApp(theme: AppTheme.dark, home: child),
   );
 }

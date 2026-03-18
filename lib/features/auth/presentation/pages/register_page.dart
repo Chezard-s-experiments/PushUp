@@ -194,7 +194,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   void _onRegister() {
     if (!_formKey.currentState!.validate()) return;
 
-    ref.read(authProvider.notifier).register(
+    ref
+        .read(authProvider.notifier)
+        .register(
           email: _emailController.text.trim(),
           password: _passwordController.text,
           firstName: _firstNameController.text.trim().isNotEmpty
