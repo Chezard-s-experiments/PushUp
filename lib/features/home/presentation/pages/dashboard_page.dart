@@ -14,11 +14,7 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.home_rounded,
-              size: 64,
-              color: Color(0xFF9999AA),
-            ),
+            const Icon(Icons.home_rounded, size: 64, color: Color(0xFF9999AA)),
             const SizedBox(height: 16),
             Text(
               'Dashboard',

@@ -19,10 +19,7 @@ Dio createDioClient() {
   dio.interceptors.addAll([
     AuthInterceptor(),
     if (EnvConfig.enableLogging)
-      LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-      ),
+      LogInterceptor(requestBody: true, responseBody: true),
   ]);
 
   return dio;

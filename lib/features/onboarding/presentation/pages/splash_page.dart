@@ -1,45 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pushup_hub/core/router/routes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pushup_hub/core/theme/app_colors.dart';
+import 'package:pushup_hub/core/theme/app_typography.dart';
+import 'package:pushup_hub/features/auth/presentation/providers/auth_notifier.dart';
 
-/// Écran de démarrage — affiche le logo Pushup puis redirige vers le dashboard.
-/// Sera enrichi : vérification auth, chargement des données, animation Lottie.
-class SplashPage extends StatefulWidget {
+/// Écran de démarrage — affiche le logo Pushup, vérifie le token
+/// et redirige automatiquement via le guard du router.
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
+    _checkAuth();
   }
 
-  Future<void> _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<void> _checkAuth() async {
+    await Future.delayed(const Duration(milliseconds: 800));
     if (mounted) {
-      context.go(Routes.dashboard);
+      ref.read(authProvider.notifier).checkAuthStatus();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bgPrimary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Pushup',
-              style: GoogleFonts.outfit(
-                fontSize: 48,
-                fontWeight: FontWeight.w800,
-                color: const Color(0xFFFF6B2C),
-              ),
+              style: AppTypography.display.copyWith(color: AppColors.primary),
             ),
             const SizedBox(height: 24),
             const SizedBox(
@@ -47,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
               height: 24,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: Color(0xFFFF6B2C),
+                color: AppColors.primary,
               ),
             ),
           ],

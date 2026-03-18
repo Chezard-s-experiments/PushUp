@@ -1,0 +1,48 @@
+name: CI PR (Flutter)
+
+on:
+  pull_request:
+    # Déclenche sur toutes les PR (le job se base sur la branche cible de la PR).
+
+concurrency:
+  group: ci-pr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint_format_test:
+    name: Lint + Format + Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          # Pin exact pour que la génération (`build_runner`, hashes freezed, etc.)
+          # soit déterministe entre machine locale et CI.
+          flutter-version: "3.41.4"
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Codegen (freezed/riverpod) - vérifier à jour
+        run: |
+          flutter pub run build_runner build --delete-conflicting-outputs
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Le code généré (.g.dart / .freezed.dart) n'est pas à jour."
+            git status --porcelain
+            exit 1
+          fi
+
+      - name: Dart format (check)
+        run: dart format --set-exit-if-changed .
+
+      - name: Flutter analyze (linter)
+        run: flutter analyze
+
+      - name: Flutter test
+        run: flutter test
+
