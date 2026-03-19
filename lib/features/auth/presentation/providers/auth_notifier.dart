@@ -55,6 +55,20 @@ class AuthNotifier extends _$AuthNotifier {
     };
   }
 
+  /// Connecte l'utilisateur via Google OAuth.
+  Future<void> loginWithGoogle({required String idToken}) async {
+    state = const AuthLoading();
+
+    final result = await _repository.loginWithGoogle(idToken: idToken);
+
+    state = switch (result) {
+      Success(:final data) => Authenticated(data),
+      Error(:final failure) => AuthError(
+        failure.message ?? 'Erreur de connexion via Google',
+      ),
+    };
+  }
+
   /// Inscrit un nouvel utilisateur.
   Future<void> register({
     required String email,
