@@ -25,6 +25,9 @@ class FakeAuthNotifier extends Notifier<AuthState> implements AuthNotifier {
   }) async {}
 
   @override
+  Future<void> loginWithGoogle({required String idToken}) async {}
+
+  @override
   Future<void> logout() async {}
 }
 

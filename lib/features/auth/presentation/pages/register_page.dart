@@ -228,7 +228,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       }
 
       await authNotifier.loginWithGoogle(idToken: idToken);
-    } on GoogleSignInException catch (e) {
+    } on AppGoogleSignInException catch (e) {
       showAppSnackBar(
         context,
         message: e.message ?? 'Impossible de te connecter via Google.',

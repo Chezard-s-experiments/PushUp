@@ -1,55 +1,77 @@
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'google_sign_in_service.g.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart' as g;
 
 /// Exception métier pour les erreurs techniques liées à Google Sign-In.
-class GoogleSignInException implements Exception {
-  GoogleSignInException({this.message});
+class AppGoogleSignInException implements Exception {
+  AppGoogleSignInException({this.message});
 
   final String? message;
 
   @override
-  String toString() => 'GoogleSignInException(message: $message)';
+  String toString() => 'AppGoogleSignInException(message: $message)';
+}
+
+abstract class GoogleSignInClient {
+  Future<void> initialize();
+
+  Future<g.GoogleSignInAccount> authenticate();
+}
+
+class PluginGoogleSignInClient implements GoogleSignInClient {
+  PluginGoogleSignInClient(this._googleSignIn);
+
+  final g.GoogleSignIn _googleSignIn;
+
+  @override
+  Future<void> initialize() => _googleSignIn.initialize();
+
+  @override
+  Future<g.GoogleSignInAccount> authenticate() => _googleSignIn.authenticate();
 }
 
 /// Service qui encapsule le plugin [GoogleSignIn] et renvoie uniquement un idToken.
 ///
 /// - Retourne l'idToken si l'utilisateur termine le flow.
 /// - Retourne `null` si l'utilisateur annule la connexion.
-/// - Lève [GoogleSignInException] pour les erreurs techniques.
+/// - Lève [AppGoogleSignInException] pour les erreurs techniques.
 class GoogleSignInService {
-  GoogleSignInService(this._googleSignIn);
+  GoogleSignInService(this._client);
 
-  final GoogleSignIn _googleSignIn;
+  final GoogleSignInClient _client;
 
   Future<String?> signIn() async {
     try {
-      final account = await _googleSignIn.signIn();
-      if (account == null) {
-        // Annulation utilisateur → on remonte null (retour silencieux côté UI).
-        return null;
-      }
+      await _client.initialize();
+      final account = await _client.authenticate();
 
-      final auth = await account.authentication;
+      final auth = account.authentication;
       final idToken = auth.idToken;
 
       if (idToken == null) {
-        throw GoogleSignInException(message: 'Missing idToken from Google');
+        throw AppGoogleSignInException(message: 'Missing idToken from Google');
       }
 
       return idToken;
-    } on GoogleSignInException {
+    } on AppGoogleSignInException {
       rethrow;
+    } on g.GoogleSignInException catch (e) {
+      switch (e.code) {
+        case g.GoogleSignInExceptionCode.canceled:
+        case g.GoogleSignInExceptionCode.interrupted:
+        case g.GoogleSignInExceptionCode.uiUnavailable:
+          return null;
+        default:
+          throw AppGoogleSignInException(message: e.toString());
+      }
     } catch (e) {
-      throw GoogleSignInException(message: e.toString());
+      throw AppGoogleSignInException(message: e.toString());
     }
   }
 }
 
-@riverpod
-GoogleSignInService googleSignInService(GoogleSignInServiceRef ref) {
-  final googleSignIn = GoogleSignIn();
-  return GoogleSignInService(googleSignIn);
-}
+final googleSignInServiceProvider = Provider<GoogleSignInService>((ref) {
+  return GoogleSignInService(
+    PluginGoogleSignInClient(g.GoogleSignIn.instance),
+  );
+});
 

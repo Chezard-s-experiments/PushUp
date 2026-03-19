@@ -1,17 +1,14 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'oauth_request.freezed.dart';
-part 'oauth_request.g.dart';
-
 /// Body de la requête POST /auth/oauth.
-@freezed
-abstract class OAuthRequest with _$OAuthRequest {
-  const factory OAuthRequest({
-    /// id_token fourni par Google côté front.
-    required String token,
-  }) = _OAuthRequest;
+class OAuthRequest {
+  const OAuthRequest({
+    required this.token,
+  });
 
-  factory OAuthRequest.fromJson(Map<String, dynamic> json) =>
-      _$OAuthRequestFromJson(json);
+  /// id_token fourni par Google côté front.
+  final String token;
+
+  Map<String, dynamic> toJson() => {
+    'token': token,
+  };
 }
 

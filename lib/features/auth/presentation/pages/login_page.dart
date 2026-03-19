@@ -172,7 +172,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
 
       await authNotifier.loginWithGoogle(idToken: idToken);
-    } on GoogleSignInException catch (e) {
+    } on AppGoogleSignInException catch (e) {
       showAppSnackBar(
         context,
         message: e.message ?? 'Impossible de te connecter via Google.',
