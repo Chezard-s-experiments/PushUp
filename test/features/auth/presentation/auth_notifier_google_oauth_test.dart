@@ -71,9 +71,7 @@ void main() {
   setUp(() {
     repository = _FakeAuthRepository(googleLoginResult: Success(user));
     container = ProviderContainer(
-      overrides: [
-        authRepositoryProvider.overrideWith((ref) => repository),
-      ],
+      overrides: [authRepositoryProvider.overrideWith((ref) => repository)],
     );
   });
 
@@ -87,9 +85,7 @@ void main() {
     });
 
     test('sets AuthError on failure', () async {
-      repository.googleLoginResult = const Error(
-        AuthFailure(message: 'error'),
-      );
+      repository.googleLoginResult = const Error(AuthFailure(message: 'error'));
       final notifier = container.read(authProvider.notifier);
 
       await notifier.loginWithGoogle(idToken: 'idToken');
@@ -98,4 +94,3 @@ void main() {
     });
   });
 }
-

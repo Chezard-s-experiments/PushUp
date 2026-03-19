@@ -77,9 +77,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<UserProfile>> loginWithGoogle({
-    required String idToken,
-  }) async {
+  Future<Result<UserProfile>> loginWithGoogle({required String idToken}) async {
     try {
       final response = await _remoteDataSource.oauthLogin(
         OAuthRequest(token: idToken),

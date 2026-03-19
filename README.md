@@ -58,6 +58,7 @@ Lance ces commandes avant de pousser une PR :
 
 ```bash
 flutter pub get
+dart format .
 flutter analyze
 flutter test
 ```

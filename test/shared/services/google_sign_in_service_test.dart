@@ -3,22 +3,18 @@ import 'package:google_sign_in/google_sign_in.dart' as g;
 import 'package:pushup_hub/shared/services/google_sign_in_service.dart';
 
 class _FakeGoogleSignInClient implements GoogleSignInClient {
-  _FakeGoogleSignInClient({
-    this.onInitialize,
-    this.onAuthenticate,
-  });
-
-  Future<void> Function()? onInitialize;
-  Future<g.GoogleSignInAccount> Function()? onAuthenticate;
+  Future<void> Function() onInitialize = () async {};
+  Future<g.GoogleSignInAccount> Function() onAuthenticate = () async =>
+      throw UnimplementedError();
 
   @override
   Future<g.GoogleSignInAccount> authenticate() async {
-    return onAuthenticate!.call();
+    return onAuthenticate();
   }
 
   @override
   Future<void> initialize() async {
-    await onInitialize?.call();
+    await onInitialize();
   }
 }
 
@@ -39,4 +35,3 @@ void main() {
     expect(() => service.signIn(), throwsA(isA<AppGoogleSignInException>()));
   });
 }
-

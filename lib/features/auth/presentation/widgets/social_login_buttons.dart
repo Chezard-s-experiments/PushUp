@@ -47,28 +47,19 @@ class _OrDivider extends StatelessWidget {
     return Row(
       children: [
         const Expanded(
-          child: Divider(
-            color: AppColors.bgElevated,
-            thickness: 1,
-          ),
+          child: Divider(color: AppColors.bgElevated, thickness: 1),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
           child: Text(
             'ou',
-            style: AppTypography.body2.copyWith(
-              color: AppColors.textSecondary,
-            ),
+            style: AppTypography.body2.copyWith(color: AppColors.textSecondary),
           ),
         ),
         const Expanded(
-          child: Divider(
-            color: AppColors.bgElevated,
-            thickness: 1,
-          ),
+          child: Divider(color: AppColors.bgElevated, thickness: 1),
         ),
       ],
     );
   }
 }
-

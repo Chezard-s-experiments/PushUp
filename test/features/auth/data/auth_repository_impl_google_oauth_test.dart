@@ -73,37 +73,47 @@ void main() {
   });
 
   group('loginWithGoogle', () {
-    test('should return Success and save tokens when remote call succeeds', () async {
-      final response = AuthResponse(
-        token: AccessTokenPayload(
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          tokenType: 'bearer',
-        ),
-        user: user,
-      );
+    test(
+      'should return Success and save tokens when remote call succeeds',
+      () async {
+        final response = AuthResponse(
+          token: AccessTokenPayload(
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            tokenType: 'bearer',
+          ),
+          user: user,
+        );
 
-      remoteDataSource.oauthResponse = response;
+        remoteDataSource.oauthResponse = response;
 
-      final loginResult = await repository.loginWithGoogle(idToken: 'idToken');
+        final loginResult = await repository.loginWithGoogle(
+          idToken: 'idToken',
+        );
 
-      expect(loginResult, isA<result.Success<UserProfile>>());
-      expect((loginResult as result.Success<UserProfile>).data, user);
-      expect(secureStorage.values[StorageKeys.accessToken], accessToken);
-      expect(secureStorage.values[StorageKeys.refreshToken], refreshToken);
-    });
+        expect(loginResult, isA<result.Success<UserProfile>>());
+        expect((loginResult as result.Success<UserProfile>).data, user);
+        expect(secureStorage.values[StorageKeys.accessToken], accessToken);
+        expect(secureStorage.values[StorageKeys.refreshToken], refreshToken);
+      },
+    );
 
-    test('should return Error(NetworkFailure) when NetworkException thrown', () async {
-      remoteDataSource.oauthError = NetworkException(message: 'no network');
+    test(
+      'should return Error(NetworkFailure) when NetworkException thrown',
+      () async {
+        remoteDataSource.oauthError = NetworkException(message: 'no network');
 
-      final loginResult = await repository.loginWithGoogle(idToken: 'idToken');
+        final loginResult = await repository.loginWithGoogle(
+          idToken: 'idToken',
+        );
 
-      expect(loginResult, isA<result.Error<UserProfile>>());
-      expect(
-        (loginResult as result.Error<UserProfile>).failure,
-        isA<NetworkFailure>(),
-      );
-    });
+        expect(loginResult, isA<result.Error<UserProfile>>());
+        expect(
+          (loginResult as result.Error<UserProfile>).failure,
+          isA<NetworkFailure>(),
+        );
+      },
+    );
 
     test('should map ServerException 401 to AuthFailure', () async {
       remoteDataSource.oauthError = ServerException(
@@ -121,4 +131,3 @@ void main() {
     });
   });
 }
-

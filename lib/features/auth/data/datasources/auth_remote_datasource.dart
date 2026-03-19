@@ -62,10 +62,7 @@ class AuthRemoteDataSource {
   /// POST /auth/oauth → AuthResponse (200)
   Future<AuthResponse> oauthLogin(OAuthRequest request) async {
     try {
-      final response = await _dio.post(
-        '/auth/oauth',
-        data: request.toJson(),
-      );
+      final response = await _dio.post('/auth/oauth', data: request.toJson());
       return AuthResponse.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleDioException(e);

@@ -21,9 +21,7 @@ abstract class AuthRepository {
   /// Connecte un utilisateur via un provider OAuth (Google, etc.) et stocke les tokens.
   ///
   /// [idToken] est l'id_token fourni par le provider côté client.
-  Future<Result<UserProfile>> loginWithGoogle({
-    required String idToken,
-  });
+  Future<Result<UserProfile>> loginWithGoogle({required String idToken});
 
   /// Récupère le profil de l'utilisateur courant via le token stocké.
   Future<Result<UserProfile>> getCurrentUser();

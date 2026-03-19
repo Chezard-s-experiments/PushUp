@@ -70,8 +70,5 @@ class GoogleSignInService {
 }
 
 final googleSignInServiceProvider = Provider<GoogleSignInService>((ref) {
-  return GoogleSignInService(
-    PluginGoogleSignInClient(g.GoogleSignIn.instance),
-  );
+  return GoogleSignInService(PluginGoogleSignInClient(g.GoogleSignIn.instance));
 });
-
