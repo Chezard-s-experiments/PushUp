@@ -40,6 +40,9 @@ dependencies:
   shimmer:
   flutter_svg:
 
+  # Auth social
+  google_sign_in:
+
   # Utils
   intl:
   logger:
