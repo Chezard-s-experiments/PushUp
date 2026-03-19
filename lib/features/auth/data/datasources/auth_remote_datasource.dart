@@ -3,6 +3,7 @@ import 'package:pushup_hub/core/errors/exceptions.dart';
 import 'package:pushup_hub/features/auth/data/models/access_token_payload.dart';
 import 'package:pushup_hub/features/auth/data/models/auth_response.dart';
 import 'package:pushup_hub/features/auth/data/models/login_request.dart';
+import 'package:pushup_hub/features/auth/data/models/oauth_request.dart';
 import 'package:pushup_hub/features/auth/data/models/refresh_request.dart';
 import 'package:pushup_hub/features/auth/data/models/register_request.dart';
 import 'package:pushup_hub/features/auth/data/models/user_profile.dart';
@@ -53,6 +54,19 @@ class AuthRemoteDataSource {
     try {
       final response = await _dio.post('/auth/refresh', data: request.toJson());
       return AccessTokenPayload.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw _handleDioException(e);
+    }
+  }
+
+  /// POST /auth/oauth → AuthResponse (200)
+  Future<AuthResponse> oauthLogin(OAuthRequest request) async {
+    try {
+      final response = await _dio.post(
+        '/auth/oauth',
+        data: request.toJson(),
+      );
+      return AuthResponse.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleDioException(e);
     }
