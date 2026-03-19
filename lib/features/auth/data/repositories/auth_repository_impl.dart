@@ -5,6 +5,7 @@ import 'package:pushup_hub/core/errors/failures.dart';
 import 'package:pushup_hub/core/utils/result.dart';
 import 'package:pushup_hub/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:pushup_hub/features/auth/data/models/login_request.dart';
+import 'package:pushup_hub/features/auth/data/models/oauth_request.dart';
 import 'package:pushup_hub/features/auth/data/models/refresh_request.dart';
 import 'package:pushup_hub/features/auth/data/models/register_request.dart';
 import 'package:pushup_hub/features/auth/data/models/user_profile.dart';
@@ -60,6 +61,28 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _remoteDataSource.login(
         LoginRequest(email: email, password: password),
+      );
+      await _saveTokens(
+        accessToken: response.token.accessToken,
+        refreshToken: response.token.refreshToken,
+      );
+      return Success(response.user);
+    } on NetworkException catch (e) {
+      return Error(NetworkFailure(message: e.message));
+    } on ServerException catch (e) {
+      return Error(_mapServerFailure(e));
+    } catch (e) {
+      return Error(UnknownFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<UserProfile>> loginWithGoogle({
+    required String idToken,
+  }) async {
+    try {
+      final response = await _remoteDataSource.oauthLogin(
+        OAuthRequest(token: idToken),
       );
       await _saveTokens(
         accessToken: response.token.accessToken,
