@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:pushup_hub/core/theme/app_colors.dart';
 
 /// Shell avec 4 onglets + FAB central "Démarrer" — cf. design.md §8
@@ -56,10 +57,10 @@ class AppBottomNavShell extends StatelessWidget {
         elevation: 0,
         highlightElevation: 0,
         shape: const CircleBorder(),
-        child: const Icon(
-          Icons.play_arrow_rounded,
+        child: Icon(
+          PhosphorIcons.play(PhosphorIconsStyle.fill),
           color: Colors.white,
-          size: 36,
+          size: 28,
         ),
       ),
     );
@@ -79,16 +80,16 @@ class AppBottomNavShell extends StatelessWidget {
         children: [
           _NavItem(
             index: 0,
-            icon: Icons.home_outlined,
-            activeIcon: Icons.home_rounded,
+            icon: PhosphorIcons.house(PhosphorIconsStyle.regular),
+            activeIcon: PhosphorIcons.house(PhosphorIconsStyle.fill),
             label: 'Accueil',
             isSelected: navigationShell.currentIndex == 0,
             onTap: _onTap,
           ),
           _NavItem(
             index: 1,
-            icon: Icons.fitness_center_outlined,
-            activeIcon: Icons.fitness_center,
+            icon: PhosphorIcons.barbell(PhosphorIconsStyle.regular),
+            activeIcon: PhosphorIcons.barbell(PhosphorIconsStyle.fill),
             label: 'Programmes',
             isSelected: navigationShell.currentIndex == 1,
             onTap: _onTap,
@@ -96,16 +97,16 @@ class AppBottomNavShell extends StatelessWidget {
           const SizedBox(width: 72),
           _NavItem(
             index: 2,
-            icon: Icons.emoji_events_outlined,
-            activeIcon: Icons.emoji_events,
+            icon: PhosphorIcons.trophy(PhosphorIconsStyle.regular),
+            activeIcon: PhosphorIcons.trophy(PhosphorIconsStyle.fill),
             label: 'Progression',
             isSelected: navigationShell.currentIndex == 2,
             onTap: _onTap,
           ),
           _NavItem(
             index: 3,
-            icon: Icons.person_outline,
-            activeIcon: Icons.person,
+            icon: PhosphorIcons.userCircle(PhosphorIconsStyle.regular),
+            activeIcon: PhosphorIcons.userCircle(PhosphorIconsStyle.fill),
             label: 'Profil',
             isSelected: navigationShell.currentIndex == 3,
             onTap: _onTap,
