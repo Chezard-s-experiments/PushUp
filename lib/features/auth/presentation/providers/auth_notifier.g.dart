@@ -47,7 +47,7 @@ final class AuthNotifierProvider
   }
 }
 
-String _$authNotifierHash() => r'1e13c3933233dc973efe586a69617ebb01e3fb1a';
+String _$authNotifierHash() => r'596c6e8d753c119c4ccc96e7b469628cfbb3ac56';
 
 /// Notifier global de l'état d'authentification.
 /// keepAlive car l'état auth persiste pendant toute la durée de vie de l'app.

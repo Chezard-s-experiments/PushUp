@@ -25,7 +25,7 @@ dependencies:
 
   # Sérialisation
   freezed_annotation:
-  json_annotation:
+  json_annotation: ^4.9.0
 
   # Storage
   flutter_secure_storage:

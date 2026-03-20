@@ -83,7 +83,10 @@ Lance ces commandes avant de pousser une PR :
 
 ```bash
 flutter pub get
+dart run build_runner build --delete-conflicting-outputs
 dart format .
 flutter analyze
 flutter test
 ```
+
+**CI** (`.github/workflows/ci-pr.yml`) exécute `build_runner` puis échoue si des fichiers **`.g.dart` / `.freezed.dart`** changent encore : il faut **commiter** le code généré. Le dépôt versionne **`pubspec.lock`** pour que la CI et les postes de dev résolvent les **mêmes versions** des générateurs (évite des diffs fantômes sur `auth_notifier.g.dart`, etc.). Utilise la **même version de Flutter** que le workflow (pin dans `ci-pr.yml`) pour régénérer si besoin.
