@@ -1,5 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart' as g;
+
+/// ID client OAuth « Application Web » — optionnel ; sinon utiliser la balise
+/// `<meta name="google-signin-client_id" ...>` dans `web/index.html`.
+/// Voir `docs/google_sign_in_web.md`.
+const String kGoogleWebClientId = String.fromEnvironment(
+  'GOOGLE_WEB_CLIENT_ID',
+);
 
 /// Exception métier pour les erreurs techniques liées à Google Sign-In.
 class AppGoogleSignInException implements Exception {
@@ -23,7 +31,11 @@ class PluginGoogleSignInClient implements GoogleSignInClient {
   final g.GoogleSignIn _googleSignIn;
 
   @override
-  Future<void> initialize() => _googleSignIn.initialize();
+  Future<void> initialize() => _googleSignIn.initialize(
+    clientId: kIsWeb && kGoogleWebClientId.isNotEmpty
+        ? kGoogleWebClientId
+        : null,
+  );
 
   @override
   Future<g.GoogleSignInAccount> authenticate() => _googleSignIn.authenticate();
@@ -41,6 +53,13 @@ class GoogleSignInService {
 
   Future<String?> signIn() async {
     try {
+      if (kIsWeb) {
+        throw AppGoogleSignInException(
+          message:
+              'Sur le web, la connexion Google passe par le bouton officiel (GIS), '
+              'pas par authenticate().',
+        );
+      }
       await _client.initialize();
       final account = await _client.authenticate();
 

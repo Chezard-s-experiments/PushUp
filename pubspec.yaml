@@ -42,6 +42,7 @@ dependencies:
 
   # Auth social
   google_sign_in:
+  google_sign_in_web: ^1.1.3
 
   # Utils
   intl:

@@ -165,6 +165,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
                   SocialLoginButtons(
                     isLoading: isLoading,
+                    forSignUp: true,
                     onGooglePressed: isLoading ? null : _onGoogleRegister,
                   ),
                   const SizedBox(height: AppSpacing.lg),
