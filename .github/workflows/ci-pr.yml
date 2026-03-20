@@ -30,9 +30,11 @@ jobs:
 
       - name: Codegen (freezed/riverpod) - vérifier à jour
         run: |
-          flutter pub run build_runner build --delete-conflicting-outputs
+          dart run build_runner build --delete-conflicting-outputs
           if [ -n "$(git status --porcelain)" ]; then
             echo "Le code généré (.g.dart / .freezed.dart) n'est pas à jour."
+            echo "En local : flutter pub get && dart run build_runner build --delete-conflicting-outputs"
+            echo "Puis commit les .g.dart / .freezed.dart (et pubspec.lock si modifié)."
             git status --porcelain
             exit 1
           fi

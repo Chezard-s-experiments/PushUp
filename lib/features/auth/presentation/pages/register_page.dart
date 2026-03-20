@@ -7,6 +7,8 @@ import 'package:pushup_hub/core/theme/app_spacing.dart';
 import 'package:pushup_hub/core/theme/app_typography.dart';
 import 'package:pushup_hub/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:pushup_hub/features/auth/presentation/providers/auth_state.dart';
+import 'package:pushup_hub/features/auth/presentation/widgets/social_login_buttons.dart';
+import 'package:pushup_hub/shared/services/google_sign_in_service.dart';
 import 'package:pushup_hub/shared/widgets/app_button.dart';
 import 'package:pushup_hub/shared/widgets/app_snackbar.dart';
 import 'package:pushup_hub/shared/widgets/app_text_field.dart';
@@ -159,7 +161,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     isLoading: isLoading,
                     onPressed: isLoading ? null : _onRegister,
                   ),
-                  const SizedBox(height: AppSpacing.md),
+                  const SizedBox(height: AppSpacing.lg),
+
+                  SocialLoginButtons(
+                    isLoading: isLoading,
+                    forSignUp: true,
+                    onGooglePressed: isLoading ? null : _onGoogleRegister,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -206,6 +215,33 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               ? _lastNameController.text.trim()
               : null,
         );
+  }
+
+  Future<void> _onGoogleRegister() async {
+    final googleService = ref.read(googleSignInServiceProvider);
+    final authNotifier = ref.read(authProvider.notifier);
+
+    try {
+      final idToken = await googleService.signIn();
+      if (!mounted || idToken == null) {
+        // Annulation utilisateur → retour silencieux.
+        return;
+      }
+
+      await authNotifier.loginWithGoogle(idToken: idToken);
+    } on AppGoogleSignInException catch (e) {
+      if (!mounted) return;
+      showAppSnackBar(
+        context,
+        message: e.message ?? 'Impossible de te connecter via Google.',
+      );
+    } catch (_) {
+      if (!mounted) return;
+      showAppSnackBar(
+        context,
+        message: 'Impossible de te connecter via Google.',
+      );
+    }
   }
 
   String? _validateEmail(String? value) {
