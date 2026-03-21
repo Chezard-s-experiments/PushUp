@@ -23,7 +23,7 @@ const _authRoutes = {Routes.login, Routes.register};
 /// Provider Riverpod pour accéder à l'état auth dans le redirect.
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
-  final authNotifier = ValueNotifier<AuthState>(const AuthInitial());
+  final authNotifier = ValueNotifier<AuthState>(ref.read(authProvider));
 
   ref.listen<AuthState>(authProvider, (_, next) {
     authNotifier.value = next;

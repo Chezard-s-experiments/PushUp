@@ -1,4 +1,4 @@
-# Design System — Pushup Hub
+# Design System — Pushup
 
 **Version** : 1.1
 **Dernière mise à jour** : Mars 2026
@@ -56,7 +56,7 @@ Nuit urbaine, chaleur orange, progression personnelle, régularité, parcours, d
 | Jalon atteint | Fierté, accomplissement | Badge gravé, flash lumineux |
 | Record personnel | Surprise, excitation | Étoile dorée, notification spéciale |
 
-> **Règle clé** : le vocabulaire guerrier des jalons (Fighter, Warrior, Champion, God, God Slayer) apporte la couche gaming dans le contenu textuel. Le design reste chaleureux et accueillant — il n'a pas besoin d'en rajouter visuellement.
+> **Règle clé** : le vocabulaire des **paliers** (titres Rookie → God Slayer) et des **rangs** (métaux Bois → Diamant) apporte la couche gaming dans le contenu textuel. Le design reste chaleureux et accueillant — il n'a pas besoin d'en rajouter visuellement.
 
 ---
 
@@ -83,16 +83,29 @@ Mode sombre par défaut, énergie et intensité. Les couleurs vives ressortent s
 | Texte secondaire | `text-secondary` | `#9999AA` | Labels, hints, texte inactif |
 | Bordure subtile | `border` | `rgba(255,255,255,0.06)` | Délimitation des cards et surfaces |
 
-### Couleurs des paliers
+### Couleurs des paliers (titres — progression globale)
 
-| Palier | Hex principal | Hex secondaire | Style |
-|--------|---------------|----------------|-------|
+Chaque **palier** a une identité visuelle distincte (badges, accents d’écran). Les **rangs** (métaux) utilisent la palette dédiée ci-dessous.
+
+| Palier (titre) | Hex principal | Hex secondaire | Style |
+|----------------|---------------|----------------|-------|
+| **Rookie** | `#CD7F32` | `#A0522D` | Mat cuivré chaud (entrée de parcours) |
+| **Fighter** | `#C0C0C0` | `#A8A8A8` | Poli argenté |
+| **Warrior** | `#FFD700` | `#DAA520` | Brillant doré |
+| **Champion** | `#B9F2FF` | `#7DF9FF` | Cristallin / gemme |
+| **God** | `#E5E4E2` | `#D4D4D2` | Blanc métallique lisse |
+| **God Slayer** | `#1A1A2E` + `#FFD700` | — | Noir et or, aura dorée |
+
+### Couleurs des rangs (métaux — sous-progression dans le palier)
+
+| Rang | Hex principal | Hex secondaire | Style |
+|------|---------------|----------------|-------|
+| **Bois** | `#8B6914` | `#5C4033` | Grain chaud, organique |
 | **Bronze** | `#CD7F32` | `#A0522D` | Mat cuivré |
-| **Silver** | `#C0C0C0` | `#A8A8A8` | Poli argenté |
+| **Argent** | `#C0C0C0` | `#A8A8A8` | Poli argenté |
 | **Or** | `#FFD700` | `#DAA520` | Brillant doré |
+| **Platine** | `#E5E4E2` | `#D4D4D2` | Blanc métallique |
 | **Diamant** | `#B9F2FF` | `#7DF9FF` | Cristallin translucide |
-| **Platinium** | `#E5E4E2` | `#D4D4D2` | Blanc métallique lisse |
-| **Master** | `#1A1A2E` + `#FFD700` | — | Noir et or, aura dorée |
 
 ### Mode clair (secondaire)
 
@@ -170,7 +183,7 @@ Bibliothèque complète (6 000+ icônes), 6 styles disponibles, avec un mode duo
 | Navigation (inactif) | Regular | Icône fine, couleur `#9999AA` |
 | Navigation (actif) | Fill | Icône pleine, couleur `#FF6B2C` |
 | Actions UI | Bold | Boutons d'action, menus |
-| Badges / gamification | Duotone | Deux tons : couleur du palier + accent |
+| Badges / gamification | Duotone | Deux tons : couleur du **palier** (titre) ou du **rang** (métal) + accent |
 | Inline (texte) | Regular | Petites icônes dans le texte |
 
 ### Tailles
@@ -340,7 +353,7 @@ Utilisé uniquement pour les moments de célébration :
 - Overlay "+150 XP" post-séance
 - Célébration de montée de niveau
 - Animation de passage de palier
-- Badge de jalon atteint
+- Badge de rang (jalon de métal) atteint
 - Record personnel battu
 
 ---
@@ -435,32 +448,32 @@ Même logique que les composants UI : sobre au quotidien, spectaculaire pour les
 
 **Style** : métallique / glossy, rendu premium.
 
-#### Badges de paliers
+#### Badges de paliers (titres)
 
 | Palier | Style visuel | Description |
 |--------|-------------|-------------|
-| **Bronze** | Métallique mat cuivré | Bouclier avec texture bronze, reflets doux |
-| **Silver** | Métallique poli argenté | Bouclier avec brillance froide |
-| **Or** | Métallique brillant doré | Bouclier avec glow chaud |
-| **Diamant** | Cristallin translucide | Gemme à facettes avec reflets prismatiques |
-| **Platinium** | Blanc métallique lisse | Surface miroir, reflets subtils |
-| **Master** | Noir et or, aura | Bouclier sombre avec particules dorées |
+| **Rookie** | Métallique mat cuivré | Bouclier / écusson d'entrée, reflets doux |
+| **Fighter** | Métallique poli argenté | Bouclier avec brillance froide |
+| **Warrior** | Métallique brillant doré | Bouclier avec glow chaud |
+| **Champion** | Cristallin translucide | Gemme à facettes, reflets prismatiques |
+| **God** | Blanc métallique lisse | Surface miroir, halo lumineux |
+| **God Slayer** | Noir et or, aura | Bouclier sombre avec particules dorées |
 
-#### Badges de jalons
+#### Badges de rangs (métaux, jalons aux niveaux 1, 10, 25, 50, 75, 90)
 
-| Jalon | Niveau | Style visuel |
-|-------|--------|-------------|
-| **Rookie** | 1 | Écusson simple, couleur du palier actuel |
-| **Fighter** | 10 | Médaille avec poings croisés |
-| **Warrior** | 25 | Bouclier avec épée |
-| **Champion** | 50 | Couronne dorée |
-| **God** | 75 | Éclair / aura divine |
-| **God Slayer** | 90 | Crâne couronné, aura sombre et or |
+| Rang | Niveau | Style visuel |
+|------|--------|-------------|
+| **Bois** | 1 | Anneaux de bois, texture naturelle, teinte chaude |
+| **Bronze** | 10 | Médaille mat cuivré |
+| **Argent** | 25 | Médaille polie argent |
+| **Or** | 50 | Médaille dorée, couronne légère |
+| **Platine** | 75 | Insigne blanc métal, reflets froids |
+| **Diamant** | 90 | Gemme à facettes, éclats forts |
 
 #### Animations des badges
 
-- Les badges de paliers sont animés en **Lottie** (rotation lente, reflets qui bougent, glow pulsant)
-- Les jalons ont une animation d'apparition (scale-in + flash lumineux)
+- Les badges de **paliers** (titres) sont animés en **Lottie** (rotation lente, reflets qui bougent, glow pulsant)
+- Les badges de **rangs** (métaux) ont une animation d'apparition (scale-in + flash lumineux)
 - Les records personnels déclenchent une étoile dorée animée (flash + particules)
 
 **Ressources recommandées** :
@@ -515,9 +528,9 @@ Même logique que les composants UI : sobre au quotidien, spectaculaire pour les
 
 | Onglet | Contenu principal |
 |--------|-------------------|
-| **Accueil** | Dashboard : progression rapide, prochaine séance, activité récente, objectif actif, prochain jalon |
+| **Accueil** | Dashboard : progression rapide, prochaine séance, activité récente, objectif actif, prochain jalon de rang |
 | **Programmes** | Liste des programmes de l'utilisateur, création de programme, détail et gestion |
-| **Progression** | Détail complet : palier, niveau, XP, jalons atteints et à venir, classements, graphiques |
+| **Progression** | Détail complet : palier (titre), rang (métal), niveau, XP, jalons de rang, classements, graphiques |
 | **Profil** | Paramètres, compte, déconnexion, revoir le tutoriel, préférences |
 
 ---
@@ -534,15 +547,16 @@ L'accueil répond à **3 questions** que l'utilisateur se pose en ouvrant l'app 
 ##### App Bar
 
 - Gauche : "Salut, [Prénom]" — DM Sans Regular 16px `#F5F5F7`
-- Droite : badge palier miniature (Phosphor duotone 24px, couleur du palier) + icône notifications (`Bell` 24px)
+- Droite : badge **palier** miniature (Phosphor duotone 24px, couleur du titre) + icône notifications (`Bell` 24px)
 
 ##### Bloc 1 — Progression rapide
 
 **Rôle** : feedback immédiat sur la progression globale. Toujours visible en premier.
 
-- Badge du palier actuel (Phosphor duotone 32px, couleur métallique du palier)
-- "Palier Bronze" — DM Sans Medium 12px `#9999AA`
-- "Niveau 23" — Outfit Bold 22px `#F5F5F7`
+- Badge du palier actuel (Phosphor duotone 32px, couleur du **titre** de palier)
+- « Palier **Rookie** » — DM Sans Medium 12px `#9999AA`
+- « Rang **Argent** » — DM Sans Medium 12px `#9999AA` (sous-ligne ou ligne secondaire)
+- « Niveau 23 » — Outfit Bold 22px `#F5F5F7`
 - Barre XP vers le niveau suivant (dégradé `#FF6B2C` → `#FF9A44`, 8px, animée)
 - "67% → Niveau 24" — DM Sans Regular 14px `#9999AA`
 - "+350 XP cette semaine" — DM Sans Medium 14px `#FF6B2C`
@@ -602,17 +616,17 @@ L'accueil répond à **3 questions** que l'utilisateur se pose en ouvrant l'app 
 
 **Composant** : card niveau 1, padding 16px, coins 16px.
 
-##### Bloc 5 — Prochain jalon
+##### Bloc 5 — Prochain jalon de rang
 
-**Rôle** : motivation par la proximité du prochain accomplissement.
+**Rôle** : motivation par la proximité du prochain **passage de rang** (métal).
 
-- "Prochain jalon" — DM Sans Medium 12px `#9999AA`
-- "Warrior (Niveau 25)" — Outfit SemiBold 18px `#F5F5F7`
-- "Plus que 2 niveaux !" — DM Sans Regular 14px `#FF6B2C`
+- « Prochain rang » — DM Sans Medium 12px `#9999AA`
+- « **Argent** (niveau 25) » — Outfit SemiBold 18px `#F5F5F7`
+- « Plus que 2 niveaux ! » — DM Sans Regular 14px `#FF6B2C`
 - Barre de progression vers le jalon (dégradé orange, 6px)
 - **Tap** → onglet Progression
 
-**Si jalon atteint récemment** : remplacé par une mini-célébration — "Bravo ! Warrior atteint !" avec badge miniature et fond `rgba(255,107,44,0.08)`.
+**Si jalon atteint récemment** : mini-célébration — « Bravo ! Rang **Argent** atteint ! » avec badge métallique miniature et fond `rgba(255,107,44,0.08)`.
 
 **Composant** : card niveau 1, padding 16px, coins 16px.
 
@@ -620,10 +634,10 @@ L'accueil répond à **3 questions** que l'utilisateur se pose en ouvrant l'app 
 
 En Phase 1 (pas d'objectifs, pas de planning avancé), la home se limite à :
 
-1. **Progression rapide** — palier Bronze, niveau, XP, streak
+1. **Progression rapide** — palier (titre), rang (métal), niveau, XP, streak
 2. **Prochaine séance** — dernier programme utilisé, ou CTA de création
 3. **Activité récente** — 3 dernières séances (scroll horizontal)
-4. **Prochain jalon** — motivation vers le prochain milestone
+4. **Prochain jalon de rang** — motivation vers le prochain passage de métal
 
 Le Bloc 4 (objectif actif) apparaîtra en Phase 2 quand les objectifs seront implémentés.
 
@@ -744,17 +758,25 @@ abstract class AppColors {
   static const Color textPrimary   = Color(0xFFF5F5F7);
   static const Color textSecondary = Color(0xFF9999AA);
 
-  // Tiers
-  static const Color tierBronze    = Color(0xFFCD7F32);
-  static const Color tierSilver    = Color(0xFFC0C0C0);
-  static const Color tierGold      = Color(0xFFFFD700);
-  static const Color tierDiamond   = Color(0xFFB9F2FF);
-  static const Color tierPlatinium = Color(0xFFE5E4E2);
-  static const Color tierMasterGold = Color(0xFFFFD700);
-  static const Color tierMasterDark = Color(0xFF1A1A2E);
+  // Paliers (titres — progression globale)
+  static const Color palierRookie     = Color(0xFFCD7F32);
+  static const Color palierFighter    = Color(0xFFC0C0C0);
+  static const Color palierWarrior    = Color(0xFFFFD700);
+  static const Color palierChampion   = Color(0xFFB9F2FF);
+  static const Color palierGod        = Color(0xFFE5E4E2);
+  static const Color palierGodSlayerGold = Color(0xFFFFD700);
+  static const Color palierGodSlayerDark = Color(0xFF1A1A2E);
+
+  // Rangs (métaux — sous-progression)
+  static const Color rangBois     = Color(0xFF8B6914);
+  static const Color rangBronze = Color(0xFFCD7F32);
+  static const Color rangArgent = Color(0xFFC0C0C0);
+  static const Color rangOr     = Color(0xFFFFD700);
+  static const Color rangPlatine = Color(0xFFE5E4E2);
+  static const Color rangDiamant = Color(0xFFB9F2FF);
 }
 ```
 
 ---
 
-*Ce document est le guide de référence pour tout le développement UI de Pushup Hub. Chaque composant, couleur et espacement doit s'y conformer. En cas de doute, revenir aux principes directeurs : sobre au quotidien, spectaculaire pour les récompenses.*
+*Ce document est le guide de référence pour tout le développement UI de Pushup. Chaque composant, couleur et espacement doit s'y conformer. En cas de doute, revenir aux principes directeurs : sobre au quotidien, spectaculaire pour les récompenses.*

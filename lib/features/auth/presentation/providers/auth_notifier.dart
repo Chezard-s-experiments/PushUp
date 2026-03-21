@@ -12,11 +12,13 @@ part 'auth_notifier.g.dart';
 /// keepAlive car l'état auth persiste pendant toute la durée de vie de l'app.
 @Riverpod(keepAlive: true)
 class AuthNotifier extends _$AuthNotifier {
-  late final AuthRepository _repository;
+  /// Ne pas [ref.watch] le repository ici : chaque reconstruction du graphe
+  /// (ex. datasource / Dio) relancerait [build] et réinitialiserait l’état sur
+  /// [AuthInitial], ce qui casse l’UI (ex. Profil bloqué sur le loader).
+  AuthRepository get _repository => ref.read(authRepositoryProvider);
 
   @override
   AuthState build() {
-    _repository = ref.watch(authRepositoryProvider);
     return const AuthInitial();
   }
 

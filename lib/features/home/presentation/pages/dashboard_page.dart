@@ -1,38 +1,140 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:pushup_hub/core/theme/app_colors.dart';
+import 'package:pushup_hub/core/theme/app_spacing.dart';
+import 'package:pushup_hub/core/theme/app_typography.dart';
+import 'package:pushup_hub/core/utils/user_display_name.dart';
+import 'package:pushup_hub/features/auth/presentation/providers/auth_notifier.dart';
+import 'package:pushup_hub/features/auth/presentation/providers/auth_state.dart';
+import 'package:pushup_hub/features/home/presentation/widgets/dashboard_next_session_card.dart';
+import 'package:pushup_hub/features/home/presentation/widgets/dashboard_progress_summary_card.dart';
+import 'package:pushup_hub/features/home/presentation/widgets/dashboard_recent_activity_section.dart';
+import 'package:pushup_hub/shared/widgets/app_snackbar.dart';
 
-/// Page d'accueil — vue d'ensemble de l'utilisateur.
-/// Affichera : progression globale, séance du jour, streaks, raccourcis.
-class DashboardPage extends StatelessWidget {
+/// Page d'accueil — hub Phase 1.
+class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Accueil')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.home_rounded, size: 64, color: Color(0xFF9999AA)),
-            const SizedBox(height: 16),
-            Text(
-              'Dashboard',
-              style: GoogleFonts.outfit(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFFF5F5F7),
-              ),
+      backgroundColor: AppColors.bgPrimary,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xl,
+            vertical: AppSpacing.lg,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _WelcomeHeader(authState: authState),
+              const SizedBox(height: AppSpacing.lg),
+              const DashboardProgressSummaryCard(),
+              const SizedBox(height: AppSpacing.md),
+              const DashboardNextSessionCard(),
+              const SizedBox(height: AppSpacing.md),
+              const DashboardRecentActivitySection(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WelcomeHeader extends StatelessWidget {
+  final AuthState authState;
+
+  const _WelcomeHeader({required this.authState});
+
+  @override
+  Widget build(BuildContext context) {
+    final text = switch (authState) {
+      Authenticated(:final user) => 'Salut, ${userProfileDisplayName(user)}',
+      AuthLoading() => 'Salut…',
+      _ => 'Salut',
+    };
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Text(
+            text,
+            style: AppTypography.body1,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        if (authState is AuthLoading) ...[
+          const SizedBox(width: AppSpacing.sm),
+          const SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: AppColors.primary,
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Vue d\'ensemble — à venir',
-              style: GoogleFonts.dmSans(
-                fontSize: 14,
-                color: const Color(0xFF9999AA),
-              ),
+          ),
+        ],
+        if (authState is Authenticated) ...[
+          const SizedBox(width: AppSpacing.xs),
+          _HomeAppBarIconButton(
+            tooltip: 'Palier (aperçu)',
+            icon: PhosphorIcons.medal(PhosphorIconsStyle.duotone),
+            color: AppColors.tierBronze,
+            onPressed: () => showAppSnackBar(
+              context,
+              message: 'Détail du palier — à venir',
+              accentColor: AppColors.primary,
             ),
-          ],
+          ),
+          _HomeAppBarIconButton(
+            tooltip: 'Notifications',
+            icon: PhosphorIcons.bell(PhosphorIconsStyle.regular),
+            color: AppColors.textSecondary,
+            onPressed: () => showAppSnackBar(
+              context,
+              message: 'Notifications — à venir',
+              accentColor: AppColors.secondary,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// Icône 24px, cible 48×48 — cf. design.md §8 (App Bar) et §6 (touch target).
+class _HomeAppBarIconButton extends StatelessWidget {
+  final String tooltip;
+  final IconData icon;
+  final Color color;
+  final VoidCallback onPressed;
+
+  const _HomeAppBarIconButton({
+    required this.tooltip,
+    required this.icon,
+    required this.color,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: Icon(icon, size: 24, color: color),
+        style: IconButton.styleFrom(
+          minimumSize: const Size(48, 48),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: EdgeInsets.zero,
+          foregroundColor: color,
         ),
       ),
     );
