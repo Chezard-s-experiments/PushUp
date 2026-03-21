@@ -6,11 +6,10 @@ import 'package:pushup_hub/core/theme/app_typography.dart';
 import 'package:pushup_hub/features/auth/data/models/user_profile.dart';
 import 'package:pushup_hub/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:pushup_hub/features/auth/presentation/providers/auth_state.dart';
+import 'package:pushup_hub/features/home/presentation/widgets/dashboard_next_session_card.dart';
 import 'package:pushup_hub/features/home/presentation/widgets/dashboard_progress_summary_card.dart';
-import 'package:pushup_hub/shared/widgets/app_card.dart';
 
-/// Page d'accueil — hub Phase 1 (structure, bienvenue, résumé progression mock).
-/// Prochaine séance & CTA : commits suivants.
+/// Page d'accueil — hub Phase 1.
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
 
@@ -33,15 +32,7 @@ class DashboardPage extends ConsumerWidget {
               const SizedBox(height: AppSpacing.lg),
               const DashboardProgressSummaryCard(),
               const SizedBox(height: AppSpacing.md),
-              _SectionPlaceholder(
-                title: 'Prochaine séance',
-                subtitle: 'Placeholder Phase 1 — à venir',
-              ),
-              const SizedBox(height: AppSpacing.md),
-              _SectionPlaceholder(
-                title: 'Démarrer une séance',
-                subtitle: 'Raccourci — à venir',
-              ),
+              const DashboardNextSessionCard(),
             ],
           ),
         ),
@@ -97,27 +88,6 @@ class _WelcomeHeader extends StatelessWidget {
             ),
           ),
       ],
-    );
-  }
-}
-
-class _SectionPlaceholder extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const _SectionPlaceholder({required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: AppTypography.h3),
-          const SizedBox(height: AppSpacing.sm),
-          Text(subtitle, style: AppTypography.body2.copyWith(color: AppColors.textSecondary)),
-        ],
-      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:pushup_hub/core/theme/app_colors.dart';
+import 'package:pushup_hub/shared/widgets/app_snackbar.dart';
 
 /// Shell avec 4 onglets + FAB central "Démarrer" — cf. design.md §8
 ///
@@ -42,17 +43,11 @@ class AppBottomNavShell extends StatelessWidget {
         ],
       ),
       child: FloatingActionButton(
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Sélection de séance — à venir',
-                style: GoogleFonts.dmSans(color: AppColors.textPrimary),
-              ),
-              backgroundColor: AppColors.bgElevated,
-            ),
-          );
-        },
+        onPressed: () => showAppSnackBar(
+          context,
+          message: 'Sélection de séance — à venir',
+          accentColor: AppColors.primary,
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         highlightElevation: 0,
