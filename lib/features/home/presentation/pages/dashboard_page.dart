@@ -6,10 +6,11 @@ import 'package:pushup_hub/core/theme/app_typography.dart';
 import 'package:pushup_hub/features/auth/data/models/user_profile.dart';
 import 'package:pushup_hub/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:pushup_hub/features/auth/presentation/providers/auth_state.dart';
+import 'package:pushup_hub/features/home/presentation/widgets/dashboard_progress_summary_card.dart';
 import 'package:pushup_hub/shared/widgets/app_card.dart';
 
-/// Page d'accueil — hub Phase 1 (structure + bienvenue).
-/// Blocs détaillés : commits suivants.
+/// Page d'accueil — hub Phase 1 (structure, bienvenue, résumé progression mock).
+/// Prochaine séance & CTA : commits suivants.
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
 
@@ -30,10 +31,7 @@ class DashboardPage extends ConsumerWidget {
             children: [
               _WelcomeHeader(authState: authState),
               const SizedBox(height: AppSpacing.lg),
-              _SectionPlaceholder(
-                title: 'Progression',
-                subtitle: 'Résumé palier, rang, niveau, XP — à venir',
-              ),
+              const DashboardProgressSummaryCard(),
               const SizedBox(height: AppSpacing.md),
               _SectionPlaceholder(
                 title: 'Prochaine séance',
