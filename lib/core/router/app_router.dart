@@ -10,6 +10,8 @@ import 'package:pushup_hub/features/onboarding/presentation/pages/splash_page.da
 import 'package:pushup_hub/features/profile/presentation/pages/profile_page.dart';
 import 'package:pushup_hub/features/programs/presentation/pages/programs_page.dart';
 import 'package:pushup_hub/features/progression/presentation/pages/progression_page.dart';
+import 'package:pushup_hub/features/exercises/presentation/pages/exercise_detail_page.dart';
+import 'package:pushup_hub/features/exercises/presentation/pages/exercises_list_page.dart';
 import 'package:pushup_hub/features/sessions/presentation/pages/history_page.dart';
 import 'package:pushup_hub/shared/widgets/app_bottom_nav_shell.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -76,6 +78,20 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: Routes.history,
         builder: (context, state) => const HistoryPage(),
+      ),
+
+      GoRoute(
+        path: Routes.exercises,
+        builder: (context, state) => const ExercisesListPage(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return ExerciseDetailPage(exerciseId: id);
+            },
+          ),
+        ],
       ),
 
       StatefulShellRoute.indexedStack(

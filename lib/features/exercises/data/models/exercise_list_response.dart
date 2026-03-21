@@ -7,9 +7,8 @@ part 'exercise_list_response.g.dart';
 /// Corps JSON de `GET /exercises` : `{ "items": [ … ] }`.
 @freezed
 abstract class ExerciseListResponse with _$ExerciseListResponse {
-  const factory ExerciseListResponse({
-    required List<Exercise> items,
-  }) = _ExerciseListResponse;
+  const factory ExerciseListResponse({required List<Exercise> items}) =
+      _ExerciseListResponse;
 
   factory ExerciseListResponse.fromJson(Map<String, dynamic> json) =>
       _$ExerciseListResponseFromJson(json);
