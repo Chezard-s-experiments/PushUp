@@ -9,6 +9,9 @@ import 'package:pushup_hub/shared/widgets/app_snackbar.dart';
 ///
 /// Layout : Accueil | Programmes | [FAB ▶] | Progression | Profil
 class AppBottomNavShell extends StatelessWidget {
+  /// Légèrement au-dessus de l’ancien 72px pour meilleure lisibilité / touch target.
+  static const double _fabSize = 76;
+
   final StatefulNavigationShell navigationShell;
 
   const AppBottomNavShell({required this.navigationShell, super.key});
@@ -25,8 +28,8 @@ class AppBottomNavShell extends StatelessWidget {
 
   Widget _buildFab(BuildContext context) {
     return Container(
-      width: 72,
-      height: 72,
+      width: _fabSize,
+      height: _fabSize,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: const LinearGradient(
@@ -36,9 +39,9 @@ class AppBottomNavShell extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.45),
-            blurRadius: 20,
-            offset: const Offset(0, 6),
+            color: AppColors.primary.withValues(alpha: 0.42),
+            blurRadius: 18,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -55,7 +58,7 @@ class AppBottomNavShell extends StatelessWidget {
         child: Icon(
           PhosphorIcons.play(PhosphorIconsStyle.fill),
           color: Colors.white,
-          size: 28,
+          size: 30,
         ),
       ),
     );
@@ -89,7 +92,7 @@ class AppBottomNavShell extends StatelessWidget {
             isSelected: navigationShell.currentIndex == 1,
             onTap: _onTap,
           ),
-          const SizedBox(width: 72),
+          SizedBox(width: _fabSize),
           _NavItem(
             index: 2,
             icon: PhosphorIcons.trophy(PhosphorIconsStyle.regular),
