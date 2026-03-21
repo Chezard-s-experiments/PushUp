@@ -9,6 +9,7 @@ import 'package:pushup_hub/features/auth/presentation/providers/auth_notifier.da
 import 'package:pushup_hub/features/auth/presentation/providers/auth_state.dart';
 import 'package:pushup_hub/features/home/presentation/widgets/dashboard_next_session_card.dart';
 import 'package:pushup_hub/features/home/presentation/widgets/dashboard_progress_summary_card.dart';
+import 'package:pushup_hub/features/home/presentation/widgets/dashboard_recent_activity_section.dart';
 import 'package:pushup_hub/shared/widgets/app_snackbar.dart';
 
 /// Page d'accueil — hub Phase 1.
@@ -35,6 +36,8 @@ class DashboardPage extends ConsumerWidget {
               const DashboardProgressSummaryCard(),
               const SizedBox(height: AppSpacing.md),
               const DashboardNextSessionCard(),
+              const SizedBox(height: AppSpacing.md),
+              const DashboardRecentActivitySection(),
             ],
           ),
         ),
