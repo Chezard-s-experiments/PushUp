@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:pushup_hub/core/router/routes.dart';
 import 'package:pushup_hub/core/theme/app_colors.dart';
 import 'package:pushup_hub/core/theme/app_radius.dart';
 import 'package:pushup_hub/core/theme/app_spacing.dart';
 import 'package:pushup_hub/core/theme/app_typography.dart';
 import 'package:pushup_hub/shared/widgets/app_card.dart';
 
-/// Résumé progression sur l’accueil — **données fictives Phase 1** jusqu’à branchement API.
-/// Cf. design.md §8 « Bloc 1 — Progression rapide ».
+/// Résumé progression — Phase 1, lecture volontairement **légère** (peu de jargon, une barre XP).
 class DashboardProgressSummaryCard extends StatelessWidget {
   const DashboardProgressSummaryCard({super.key});
 
@@ -18,33 +19,36 @@ class DashboardProgressSummaryCard extends StatelessWidget {
   static const _mockXpProgress = 0.67;
   static const _mockXpSemaine = 350;
   static const _mockStreak = 3;
+  static const _mockNextRank = 'Or';
+  static const _mockLevelsLeft = 27;
 
   @override
   Widget build(BuildContext context) {
     final palierColor = AppColors.tierBronze;
     final rankAccent = _rankAccentForLabel(_mockRang);
+    final nextRankAccent = _rankAccentForLabel(_mockNextRank);
+    final pct = (_mockXpProgress * 100).round();
 
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 72,
-                height: 72,
+                width: 64,
+                height: 64,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: palierColor.withValues(alpha: 0.12),
                   border: Border.all(
                     color: palierColor.withValues(alpha: 0.35),
-                    width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: palierColor.withValues(alpha: 0.11),
-                      blurRadius: 10,
+                      color: palierColor.withValues(alpha: 0.1),
+                      blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
                   ],
@@ -52,7 +56,7 @@ class DashboardProgressSummaryCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Icon(
                   PhosphorIcons.medal(PhosphorIconsStyle.duotone),
-                  size: 40,
+                  size: 36,
                   color: palierColor,
                 ),
               ),
@@ -62,50 +66,91 @@ class DashboardProgressSummaryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'PALIER',
-                      style: AppTypography.overline.copyWith(
-                        color: AppColors.textSecondary,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
                       _mockPalier,
                       style: AppTypography.h1.copyWith(
                         color: palierColor,
                         height: 1.05,
                         shadows: [
                           Shadow(
-                            color: palierColor.withValues(alpha: 0.35),
-                            blurRadius: 12,
+                            color: palierColor.withValues(alpha: 0.3),
+                            blurRadius: 8,
                           ),
                         ],
                       ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Icon(
+                            PhosphorIcons.shield(PhosphorIconsStyle.duotone),
+                            size: 18,
+                            color: rankAccent,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.xs),
+                        Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              style: AppTypography.body2.copyWith(
+                                color: AppColors.textSecondary,
+                                height: 1.35,
+                              ),
+                              children: [
+                                const TextSpan(text: 'Rang '),
+                                TextSpan(
+                                  text: _mockRang,
+                                  style: AppTypography.body2.copyWith(
+                                    color: rankAccent,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '  ·  Niveau ',
+                                  style: AppTypography.body2.copyWith(
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '$_mockNiveau',
+                                  style: AppTypography.h3.copyWith(
+                                    color: AppColors.textPrimary,
+                                    height: 1.2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
-          _RankLevelMetricsStrip(
-            rankLabel: _mockRang,
-            level: _mockNiveau,
-            rankAccentColor: rankAccent,
-          ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.lg),
           _XpProgressBar(progress: _mockXpProgress),
           const SizedBox(height: AppSpacing.sm),
-          Text(
-            '${(_mockXpProgress * 100).round()}% → Niveau $_mockNextNiveau',
-            style: AppTypography.body2.copyWith(color: AppColors.textSecondary),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            '+$_mockXpSemaine XP cette semaine',
-            style: AppTypography.body2.copyWith(
-              color: AppColors.primary,
-              fontWeight: FontWeight.w500,
+          Text.rich(
+            TextSpan(
+              style: AppTypography.body2.copyWith(
+                color: AppColors.textSecondary,
+                height: 1.4,
+              ),
+              children: [
+                TextSpan(text: '$pct% vers le niveau $_mockNextNiveau'),
+                const TextSpan(text: '  ·  '),
+                TextSpan(
+                  text: '+$_mockXpSemaine XP cette semaine',
+                  style: AppTypography.body2.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
@@ -113,22 +158,74 @@ class DashboardProgressSummaryCard extends StatelessWidget {
             children: [
               Icon(
                 PhosphorIcons.fire(PhosphorIconsStyle.fill),
-                size: 16,
-                color: AppColors.warning,
+                size: 15,
+                color: AppColors.warning.withValues(alpha: 0.9),
               ),
               const SizedBox(width: AppSpacing.xs),
               Expanded(
                 child: Text(
-                  '$_mockStreak séances consécutives',
-                  style: AppTypography.body2.copyWith(
-                    color: AppColors.warning,
-                    fontWeight: FontWeight.w500,
+                  '$_mockStreak séances d’affilée',
+                  style: AppTypography.caption.copyWith(
+                    color: AppColors.textSecondary,
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.md),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => context.go(Routes.progression),
+              borderRadius: BorderRadius.circular(AppRadius.chip),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppSpacing.sm,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text.rich(
+                        TextSpan(
+                          style: AppTypography.body2.copyWith(
+                            color: AppColors.textSecondary,
+                            height: 1.35,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'Vers ',
+                              style: AppTypography.body2.copyWith(
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                            TextSpan(
+                              text: _mockNextRank,
+                              style: AppTypography.body2.copyWith(
+                                color: nextRankAccent,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' · $_mockLevelsLeft niveaux',
+                              style: AppTypography.body2.copyWith(
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      PhosphorIcons.caretRight(PhosphorIconsStyle.bold),
+                      size: 18,
+                      color: AppColors.textSecondary,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             'Démonstration — données fictives Phase 1',
             style: AppTypography.caption.copyWith(
@@ -141,7 +238,6 @@ class DashboardProgressSummaryCard extends StatelessWidget {
   }
 }
 
-/// Couleur d’accent pour le **rang** (métal) — aligné design.md §2 « Rangs ».
 Color _rankAccentForLabel(String rank) {
   return switch (rank.toLowerCase()) {
     'bois' => const Color(0xFF8B6914),
@@ -152,128 +248,6 @@ Color _rankAccentForLabel(String rank) {
     'diamant' => AppColors.tierDiamond,
     _ => AppColors.tierSilver,
   };
-}
-
-/// Deux métriques complémentaires au palier : rang (métal) + niveau (chiffre fort).
-class _RankLevelMetricsStrip extends StatelessWidget {
-  final String rankLabel;
-  final int level;
-  final Color rankAccentColor;
-
-  const _RankLevelMetricsStrip({
-    required this.rankLabel,
-    required this.level,
-    required this.rankAccentColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.bgElevated,
-        borderRadius: BorderRadius.circular(AppRadius.button),
-        border: Border.all(color: AppColors.border),
-      ),
-      padding: const EdgeInsets.symmetric(
-        vertical: AppSpacing.md,
-        horizontal: AppSpacing.xs,
-      ),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: _MetricColumn(
-                overline: 'RANG',
-                child: Row(
-                  children: [
-                    Icon(
-                      PhosphorIcons.shield(PhosphorIconsStyle.duotone),
-                      size: 22,
-                      color: rankAccentColor,
-                    ),
-                    const SizedBox(width: AppSpacing.sm),
-                    Expanded(
-                      child: Text(
-                        rankLabel,
-                        style: AppTypography.h3.copyWith(
-                          color: rankAccentColor,
-                          fontWeight: FontWeight.w700,
-                          height: 1.15,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-                child: Container(
-                  width: 1,
-                  margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-                  color: AppColors.border,
-                ),
-              ),
-            ),
-            Expanded(
-              child: _MetricColumn(
-                overline: 'NIVEAU',
-                crossAxisContent: CrossAxisAlignment.end,
-                child: Text(
-                  '$level',
-                  style: AppTypography.h2.copyWith(
-                    fontWeight: FontWeight.w700,
-                    height: 1.0,
-                    letterSpacing: -0.5,
-                  ),
-                  textAlign: TextAlign.right,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _MetricColumn extends StatelessWidget {
-  final String overline;
-  final Widget child;
-  final CrossAxisAlignment crossAxisContent;
-
-  const _MetricColumn({
-    required this.overline,
-    required this.child,
-    this.crossAxisContent = CrossAxisAlignment.start,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-      child: Column(
-        crossAxisAlignment: crossAxisContent,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            overline,
-            style: AppTypography.overline.copyWith(
-              color: AppColors.textSecondary,
-              letterSpacing: 1.8,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          child,
-        ],
-      ),
-    );
-  }
 }
 
 class _XpProgressBar extends StatelessWidget {
