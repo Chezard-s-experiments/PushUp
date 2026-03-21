@@ -11,6 +11,9 @@ abstract final class Routes {
 
   // Sous-routes accessibles hors shell (plein écran)
   static const String history = '/history';
+  static const String exercises = '/exercises';
+
+  static String exerciseDetail(String id) => '/exercises/$id';
 
   // Auth (Phase 1)
   static const String login = '/login';
