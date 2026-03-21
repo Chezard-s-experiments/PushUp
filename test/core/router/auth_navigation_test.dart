@@ -53,9 +53,6 @@ class _MaterialRouterApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-    return MaterialApp.router(
-      theme: AppTheme.dark,
-      routerConfig: router,
-    );
+    return MaterialApp.router(theme: AppTheme.dark, routerConfig: router);
   }
 }

@@ -179,9 +179,7 @@ class DashboardProgressSummaryCard extends StatelessWidget {
               onTap: () => context.go(Routes.progression),
               borderRadius: BorderRadius.circular(AppRadius.chip),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppSpacing.sm,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 child: Row(
                   children: [
                     Expanded(
@@ -275,10 +273,7 @@ class _XpProgressBar extends StatelessWidget {
                 child: const DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        AppColors.primary,
-                        Color(0xFFFF9A44),
-                      ],
+                      colors: [AppColors.primary, Color(0xFFFF9A44)],
                     ),
                   ),
                 ),

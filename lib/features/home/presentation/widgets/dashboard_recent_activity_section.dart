@@ -140,10 +140,7 @@ class _RecentSessionMiniCard extends StatelessWidget {
                   color: AppColors.primary,
                 ),
               ),
-              Text(
-                item.durationLabel,
-                style: AppTypography.caption,
-              ),
+              Text(item.durationLabel, style: AppTypography.caption),
             ],
           ),
         ),

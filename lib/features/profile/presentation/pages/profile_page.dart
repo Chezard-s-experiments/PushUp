@@ -22,16 +22,16 @@ class ProfilePage extends ConsumerWidget {
       appBar: AppBar(title: const Text('Profil')),
       body: switch (authState) {
         Authenticated(:final user) => _ProfileContent(
-            displayName: userProfileDisplayName(user),
-            email: user.email,
-            onLogout: () => ref.read(authProvider.notifier).logout(),
-          ),
+          displayName: userProfileDisplayName(user),
+          email: user.email,
+          onLogout: () => ref.read(authProvider.notifier).logout(),
+        ),
         _ => const Center(
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: AppColors.primary,
-            ),
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.primary,
           ),
+        ),
       },
     );
   }
