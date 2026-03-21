@@ -4,7 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:pushup_hub/core/theme/app_colors.dart';
 import 'package:pushup_hub/core/theme/app_spacing.dart';
 import 'package:pushup_hub/core/theme/app_typography.dart';
-import 'package:pushup_hub/features/auth/data/models/user_profile.dart';
+import 'package:pushup_hub/core/utils/user_display_name.dart';
 import 'package:pushup_hub/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:pushup_hub/features/auth/presentation/providers/auth_state.dart';
 import 'package:pushup_hub/features/home/presentation/widgets/dashboard_next_session_card.dart';
@@ -43,16 +43,6 @@ class DashboardPage extends ConsumerWidget {
   }
 }
 
-/// Nom affiché après « Salut, » — prénom si présent, sinon partie locale de l’email.
-String welcomeDisplayName(UserProfile user) {
-  final first = user.firstName?.trim();
-  if (first != null && first.isNotEmpty) return first;
-  final email = user.email.trim();
-  final at = email.indexOf('@');
-  if (at > 0) return email.substring(0, at);
-  return email.isNotEmpty ? email : 'Athlète';
-}
-
 class _WelcomeHeader extends StatelessWidget {
   final AuthState authState;
 
@@ -61,7 +51,7 @@ class _WelcomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = switch (authState) {
-      Authenticated(:final user) => 'Salut, ${welcomeDisplayName(user)}',
+      Authenticated(:final user) => 'Salut, ${userProfileDisplayName(user)}',
       AuthLoading() => 'Salut…',
       _ => 'Salut',
     };
